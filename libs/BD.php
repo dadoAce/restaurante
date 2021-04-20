@@ -1,24 +1,21 @@
 <?php
- 
-class BD {
 
-    //Propiedades
+class BD {
+   
     public $mysqli = null;
 
     function __construct() {
         
     }
 
-    public function connection($query) {
-        //--------------------------------Datos de la base de datos
+    public function connection($query, $last_id = false) {
+        
+        //--------------------------------Datos de la base de datos(datos de ejemplo)
         $db_host = "localhost";
-        $db_username = "u518286121_userFB";
-        $db_pass = "Datos_BD_2021"; 
-        $db_name = "u518286121_datosFB";
-//        $db_host = "localhost";
-//        $db_username = "root";
-//        $db_pass = "";
-//        $db_name = "datos";
+        $db_username = "root";
+        $db_pass = "";
+        $db_name = "dadoroom";
+        //--------------------------------Datos de la base de datos local 
 
         //--------------------------------Ingresar para la conexion
         $mysqli = new mysqli($db_host, $db_username, $db_pass, $db_name) or die("No se puede Conectar a la Base de Datos");
@@ -31,11 +28,17 @@ class BD {
 
         //--------------------------------Realizar la peticion
         $resulta = $mysqli->query($query);
-        $this->cerrar($mysqli);
+
+
+        if ($last_id) {
+
+            $result = mysqli_insert_id($mysqli);
+            $this->cerrar($mysqli);
+            return $result;
+        }
         if ($resulta) {
+            $this->cerrar($mysqli);
             return $resulta;
-        } else {
-            //echo "<br><p>Error en la peticion</p><br>";
         }
     }
 
@@ -51,23 +54,10 @@ class BD {
         $this->mysqli = $mysqli;
     }
 
-    function select($query) {
-        $result = $this->connection($query);
-        if ($result->num_rows > 0) {
-            $arreglo = array();
+    /* ejecutar */
 
-            while ($row = $result->fetch_assoc()) {
-                array_push($arreglo, $row);
-            }
-            return $arreglo;
-        } else {
-            return false;
-        }
-    }
-
-    function query($query) {
-        $result = $this->connection($query);
-
+    function bdQuery($query, $last_id = false) {
+        $result = $this->connection($query, $last_id);
         return $result;
     }
 

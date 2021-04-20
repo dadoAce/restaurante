@@ -1,19 +1,21 @@
 <?php
 
+/* Clase principal */
+
 class App {
+    /* Cambiar los valores de acuerdo a su proyecto */
 
-    public $metodo;
-    /* Cambiar Datos de ser necesarios */
-//    public $base_url = "http://localhost/restaurante/";
-    public $base_url = "http://restaurante.elmenuparahoy.com/";
-    public $correo_Admin = "dadoromg@hotmail.com"; /* Direccion donde llegara el Mensaje */
+    /* Direccion del proyecto:
+      para local usar : */
+
+    public $base_url = "http://localhost/DadoRoom/";
+
+    /* Para servidor en linea usar la direccion del sitio */
+//    public $base_url = "http://dadoroom.com/"; 
+
+    /* Controlador a cargar pro default */
     public $controlador_default = "Home";
-    public $baseDatos = false;
 
-    /*     * **************** */
-    /*     * **************** */
-    /*     * **************** */
-    /*     * **************** */
     /*     * **************** */
     /*     * **************** */
     /*     * **************** */
@@ -22,24 +24,33 @@ class App {
 
     public function __construct() {
 
-        if (isset($_GET['url'])) {
+        /* Filtro para mandar a una pantalla si no se ha iniciado sesion */
+        $this->filtroUsuario();
 
+        if (isset($_GET['url'])) {
+            /** Cuando no se llama a la raiz: sitio.com/controlador * */
             $metodo = $_GET['url'];
         } else {
+            /** Cuando se llama a la raiz: sitio.com/* */
             $archivoControlador = "Controlador/" . $this->controlador_default . ".php";
             if (file_exists($archivoControlador)) {
+
                 require_once $archivoControlador;
                 $controlador = new $this->controlador_default;
-                $controlador->Principal();
+                $controlador->index();
             } else {
-                echo "NO Existe el Archivo " . $archivoControlador;
-                echo "<h1>Error</h1>";
+                $error = "NO Existe el Archivo " . $archivoControlador;
+                $this->page_404($error);
+                return;
             }
             return;
         }
 
+
         $url = rtrim($metodo, '/');
-        $url = explode('/', $metodo);
+        
+        $url = explode('/', $url);
+
         if ($metodo == "" || $metodo == "index.php") {
             echo "Vacio o Index";
         } else {
@@ -47,26 +58,69 @@ class App {
 
             if (file_exists($archivoControlador)) {
                 require_once $archivoControlador;
-                $controlador = new $url[0];
-                if (isset($url[1])) {
-
-                    if (count($url) > 2) {
-                        $controlador->{$url[1]}($url[2]);
-                    } else {
-                        $controlador->{$url[1]}();
-                    }
-                } else {
-                    $controlador->index();
-                }
+                $this->llamada($url);
             } else {
-                echo " >:( NO Existe el Archivo " . $archivoControlador;
-                echo "<h1>Error</h1>";
+
+                $error = "No existe  Controlador $archivoControlador";
+                $this->page_404($error);
+                exit;
             }
         }
     }
 
-    public function base_url() {
-        return $this->base_url;
+    private function llamada($url) {
+
+        $controlador = new $url[0];
+        if (isset($url[1])) {
+            /**/
+
+            if (method_exists($url[0], $url[1])) {
+                if (count($url) > 2) {
+
+                    /* Si la direccion contiene mas de una seccion ejemplo: misitio.com/controlador/seccion2 */
+
+                    $controlador->{$url[1]}($url[2]);
+                } else {
+
+                    /* Si la direccion contiene solo el controlador ejemplo: misitio.com/controlador */
+                    $controlador->{$url[1]}();
+                }
+            } else {
+                $error = "No existe  Controlador/$url[0]/$url[1]";
+                $this->page_404($error);
+                exit;
+            }
+            /**/
+        } else {
+            $controlador->index();
+        }
+    }
+
+    public function base_url($url = "") {
+
+        return $this->base_url . $url;
+    }
+
+    public function filtroUsuario() {
+        require_once 'libs/sesiones.php';
+        $sesion = new sesiones();
+        $sesion->filtroUsuario();
+    }
+
+    public function page_404($error = null) {
+        include_once "Views/dadoroom/function_404.php";
+    }
+
+    public function function_404($error = null) {
+        include_once "Views/dadoroom/function_404.php";
+    }
+
+    public function entidad_404($error = "Entidad No Encontrada") {
+        include_once "Views/dadoroom/function_404.php";
+    }
+
+    public function user_404($error = null) {
+        include_once "Views/dadoroom/user_404.php";
     }
 
 }
