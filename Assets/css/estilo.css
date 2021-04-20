@@ -1,0 +1,78 @@
+/*
+ * Creado Por DadoRoom
+ * www.DadoRoom.com
+ * 
+ */
+/* 
+    Created on : 18/12/2020, 12:55:24 PM
+    Author     : dado_
+*/ 
+.b-gray{
+    background: #e9ebee;
+    padding-top: 10%;
+    padding-bottom:  10%;
+}
+body{
+    /*background: #e9ebee;*/
+}
+.navS{
+    background: white;
+    padding: 15px;
+}
+.eltiug27 {
+    fill: #1876f2;
+}
+
+.text-font{
+    font-family: SFProText-Regular, Helvetica, Arial, sans-serif;
+    font-size: 17px;
+    line-height: 20px;
+}
+.text-titulo {
+    font-family: SFProDisplay-Bold, Helvetica, Arial, sans-serif;
+    font-size: 20px;
+    line-height: 24px;
+    margin-top: -15px;
+    padding: 18px 16px 18px 18px;
+    font-weight: 600
+}
+
+.inputtext, .inputpassword {
+    -webkit-appearance: none;
+    border: 1px solid #ccd0d5;
+    border-radius: 7px;
+    margin: 0;
+    padding: 3px;
+    font-family: Roboto-Regular, Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    height: auto;
+    width: 444px; 
+    background-color: white !important;
+    padding: 10px;
+}
+.btn-estilo {
+    margin-top: 10px;
+    font-family:   Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    color: #fff; 
+    border: none;
+    border-radius: 6px; 
+    line-height: 36px; 
+}
+form{
+    /*margin-top: 10%;*/
+    margin-bottom: 10%;
+    background: white;
+    border: solid 1px;
+    box-shadow: 5px 2px 8px;
+    padding: 5px 3px 4px 3px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* height: 45%; */
+    border-radius: 10px;
+    
+    margin-right: 25%;
+    margin-left: 25%; 
+}  
