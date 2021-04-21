@@ -6,6 +6,10 @@ class Home extends App {
         
     }
 
+    public function index() {
+        $pagina = "menu.php";
+        include 'Views/principal.php';
+    }
     public function Principal() {
         $pagina = "menu.php";
         include 'Views/principal.php';
